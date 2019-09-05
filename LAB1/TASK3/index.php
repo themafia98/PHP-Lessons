@@ -19,7 +19,7 @@
 </head>
 <body>
     <p>Task 2:</p>
-    <form action = 'index.php'  method = 'post'>
+    <form action = 'index.php' method = 'post'>
         <input name = 'num' type ='number' />
         <input type = 'submit' value = 'Расчет' />
     </form>

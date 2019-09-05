@@ -18,7 +18,7 @@ if (!$isError){
 <html lang = 'ru'>
 <head>
     <title>Task 1</title>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
 <body>
 <p>Task 1: </p>
 <form action = 'index.php'  method = 'post'>

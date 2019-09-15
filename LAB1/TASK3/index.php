@@ -23,6 +23,6 @@
         <input name = 'num' type ='number' />
         <input type = 'submit' value = 'Расчет' />
     </form>
-    <p>Result: <?php if ($result !== null) echo $result ?></p>
+    <?php if ($result !== null) echo "<p>Result:{$result}</p>" ?>
 </body>
 </html>

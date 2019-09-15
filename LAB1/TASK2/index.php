@@ -1,8 +1,7 @@
 <?php
 
 $today = getdate();
+echo  "{$today['seconds']}";
 
-echo  "{$today['hours']}:{$today['minutes']}:{$today['seconds']}";
-
-
-
+//$today['hours']}:{$today['minutes']}:
+?>

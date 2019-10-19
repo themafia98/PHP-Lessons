@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name":"Listen php",
+            "type":"php",
+            "request": "launch",
+            "port": 80,
+        }
+        {
+            "name":"Launch",
+            "type":"php",
+            "request": "launch",
+            "program": "${file}",
+            "stopOnEntry": false,
+            "cwd": "${workspaceRoot}",
+            "port": 80,
+            "runtimeExecutable": "C:\\xampp\\php\\php.exe"
+        }
+    ]
+}

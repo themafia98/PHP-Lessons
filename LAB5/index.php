@@ -73,8 +73,8 @@
             $counter += 1;
         }
     }
-    $stringResult = "";
-    $resultList = join($stringResult, $list);
+
+    $resultList = join("", $list);
 
 ?>
 

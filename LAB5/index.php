@@ -45,13 +45,10 @@
         return $arr;
     }
     $matrixResult = matrix($N,$M);
+    $storageResults = array();
     $result = 0;
-
-    for ($i = 0; $i < count($matrixResult); $i++){
-        if ($arr[$i] <= 2){
-            $sum += array_sum($matrixResult[$i]);
-        }
-    }
+    $totalSum = 0;
+    
 
 ?>
 
@@ -64,12 +61,28 @@
     <title>PHP LAB5</title>
 </head>
 <body>
-    <br/><span>Task 1:</span><br/>
+    <p style = "font-weight: bold;">Task 1:</p>
     <?php if ($vector) print_r($vector) ?>
     <?php if ($maxValue && ($indexMax || $indexMax === 0)) echo "<p>Максимальное число: $maxValue; Индекс: $indexMax</p>" ?>
     <?php if ($minValue && ($indexMin || $indexMin === 0)) echo "<p>Минимальное число: $minValue; Индекс: $indexMin</p>" ?>
-    <?php if ($sum || $sum === 0) echo "<p>Результат Task2: $sum</p>" ?>
+    <p style = "font-weight: bold;">Task 2:</p>
+    <span>Произвидение по столбцам: </span>
+    <?php
+        for ($j=0; $j<$M; $j++) {
+            for ($i=1; $i<$N; $i++){
+                if ($matrixResult[$i][$j] <= 2){
+                    if ($result === 0){
+                        $result = $matrixResult[$i][$j];
+                    } else  $result *= $matrixResult[$i][$j];
+                }
+            }
+            printf("  %3d  ", $result);
+            array_push($storageResults, $result);
+        }
 
+        $totalSum = array_sum($storageResults);
+        echo "<p>Сумма произвидений по столбцам: $totalSum</p>"
+    ?>
     <form style = 'margin-top: 5px;' action = "index.php" method = "POST">
         <br/><span>К-во элементов вектора</span><br/>
         <input type = 'number' name = 'vector'>

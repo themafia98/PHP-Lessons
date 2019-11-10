@@ -76,7 +76,7 @@
                     } else  $result *= $matrixResult[$i][$j];
                 }
             }
-            printf("  %3d  ", $result);
+            printf(" | %3d ", $result);
             array_push($storageResults, $result);
         }
 

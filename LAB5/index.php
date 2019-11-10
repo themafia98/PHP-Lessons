@@ -1,22 +1,58 @@
 <?php
     $vectorValue = (int)htmlspecialchars($_POST["vector"]);
-    $searchValue = (int)htmlspecialchars($_POST["vectorSearchValue"]);
+    
+
+    $maxValue = null;
+    $indexMax = null;
+    $indexMin = null;
+    $minValue = null;
     $vector = [];
 
     if (!$vectorValue) $vectorValue = 10;
-    if (!$searchValue) $searchValue = 10;
 
     if ($vectorValue){
-        $i = 0;
+        $i = 1;
         while ($i < $vectorValue){
-            array_push($vector,random_int(0,100));
+            array_push($vector,$i * random_int(1,100));
             $i += 1;
         }
-        print_r($vector);
     }
 
-    if ($searchValue && $vector){
+    if ($vector){
+        $maxValue = max($vector);
+        $minValue = min($vector);
+        $indexMax = array_search($maxValue, $vector);
+        $indexMin = array_search($minValue, $vector);
     }
+
+  
+    /** Task 2 */
+
+    $N = (int)htmlspecialchars($_POST["n"]);
+    $M = (int)htmlspecialchars($_POST["m"]);
+
+    if (!$N) $N = 3;
+    if (!$M) $M = 3;
+
+    function matrix($n,$m) {
+        $arr = array();
+        for ($i=0; $i<$n; $i++) {
+            $arr[$i] = array();
+            for ($j=0; $j<$m; $j++) {
+                $arr[$i][$j] = random_int(-50,50);
+            }
+        }
+        return $arr;
+    }
+    $matrixResult = matrix($N,$M);
+    $result = 0;
+
+    for ($i = 0; $i < count($matrixResult); $i++){
+        if ($arr[$i] <= 2){
+            $sum += array_sum($matrixResult[$i]);
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -28,11 +64,20 @@
     <title>PHP LAB5</title>
 </head>
 <body>
+    <br/><span>Task 1:</span><br/>
+    <?php if ($vector) print_r($vector) ?>
+    <?php if ($maxValue && ($indexMax || $indexMax === 0)) echo "<p>Максимальное число: $maxValue; Индекс: $indexMax</p>" ?>
+    <?php if ($minValue && ($indexMin || $indexMin === 0)) echo "<p>Минимальное число: $minValue; Индекс: $indexMin</p>" ?>
+    <?php if ($sum || $sum === 0) echo "<p>Результат Task2: $sum</p>" ?>
 
-    <form action = "index.php" method = "POST">
-        <input placeholder="К-во элементов вектора" type = 'text' name = 'vector'>
-        <input placeholder="Число поиска" type = 'text' name = 'vectorSearchValue'>
-        <input type = 'submit' value = 'Результат #1'>
+    <form style = 'margin-top: 5px;' action = "index.php" method = "POST">
+        <br/><span>К-во элементов вектора</span><br/>
+        <input type = 'number' name = 'vector'>
+        <br/><span>Размерность матрицы:</span><br/>
+        <input placeholder="N" type = 'number' name = 'n'>
+        <input placeholder="M" type = 'number' name = 'm'>
+        <br/>
+        <input type = 'submit' value = 'Результат'>
     </form>
     
 </body>

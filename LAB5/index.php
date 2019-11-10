@@ -1,4 +1,5 @@
 <?php
+    header('content-type: text/html; charset=utf-8');
     $vectorValue = (int)htmlspecialchars($_POST["vector"]);
     
 
@@ -48,12 +49,37 @@
     $storageResults = array();
     $result = 0;
     $totalSum = 0;
-    
+
+    /** Task 3 */
+
+    $vowels = ["a", "e", "i", "o", "u"];
+    $counter = 0;
+    $string = strtolower((string)htmlspecialchars($_POST["string"]));
+    $list = array();
+
+    if (!$string) $string = "hello world";
+
+    for ($i = 0; $i < strlen($string); $i++){
+        array_push($list, $string{$i});
+    }
+
+    for ($i = 0; $i < count($list); $i++){
+        $find = array_search($list[$i], $vowels);
+        if ($find ||  $find === 0){
+            $buff = $list[$i];
+            $list[$i] = $list[$i + 1];
+            $list[$i + 1] = $buff;
+            $i += 1;
+            $counter += 1;
+        }
+    }
+    $stringResult = "";
+    $resultList = join($stringResult, $list);
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,16 +105,23 @@
             printf(" | %3d ", $result);
             array_push($storageResults, $result);
         }
-
         $totalSum = array_sum($storageResults);
         echo "<p>Сумма произвидений по столбцам: $totalSum</p>"
     ?>
-    <form style = 'margin-top: 5px;' action = "index.php" method = "POST">
+     <p style = "font-weight: bold;">Task 3:</p>
+    <?php
+        echo "<span>Строка: $string</span><br/>";
+        echo "<span>Результат: $resultList";
+        echo "<br/><span>К-во перестановок: $counter.</span><br/>" 
+    ?>
+    <form accept-charset="UTF-8" style = 'margin-top: 5px;' action = "index.php" method = "POST">
         <br/><span>К-во элементов вектора</span><br/>
         <input type = 'number' name = 'vector'>
         <br/><span>Размерность матрицы:</span><br/>
         <input placeholder="N" type = 'number' name = 'n'>
         <input placeholder="M" type = 'number' name = 'm'>
+        <br/><span>Введите строку:<br/>
+        <input type = 'text' placeholder="для task3" name = 'string' />
         <br/>
         <input type = 'submit' value = 'Результат'>
     </form>

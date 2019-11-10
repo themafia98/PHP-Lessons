@@ -1,7 +1,7 @@
 <?php
 
 
-/** @One start */
+/** One start */
 
 	$x = 0.5;
 	$isGood = $x >= -2 && $x <= 1;
@@ -28,12 +28,12 @@
 		echo "<p>$i : $result</p>";
 	}
 
-	/** End @One */
+	/** End One */
 
-	/** @Two start */
-
+	/** Two start */
 
 	$s = null;
+	$_s = null;
 	$x2 = (int)htmlspecialchars($_POST["n"]);
 	$isErrorTask2 = false;
 
@@ -42,11 +42,13 @@
 		for ($n = 1; $n <= $x2; $n++){
 			if ($s === null) $s = pow(-1, $n - 1) * 1 / pow($n,$n);
 			else $s += pow(-1, $n - 1) * 1 / pow($n,$n);
-			echo "<p>$n : $s</p>";;
+			echo "<p>$n : $s</p>";
+			if ($n > 1 && $_s === $s) break;
+			$_s = $s;
 		} 
 	} elseif ($x2) $isErrorTask2 = true;
 
-	/** @Two end */
+	/** Two end */
 
 	$natural = (int)htmlspecialchars($_POST["natural"]);
 	$isError = false;
@@ -57,7 +59,7 @@
 				array_push($res, $i);
 				$natural /= $i;
 				$i--;
-				if ($natural<2) break;
+				if ($natural < 2) break;
 			}
 		}
 	} elseif ($natural) $isError = true;

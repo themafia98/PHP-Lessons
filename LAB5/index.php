@@ -40,7 +40,7 @@
         for ($i=0; $i<$n; $i++) {
             $arr[$i] = array();
             for ($j=0; $j<$m; $j++) {
-                $arr[$i][$j] = random_int(-50,50);
+                $arr[$i][$j] = random_int(-10,10);
             }
         }
         return $arr;
@@ -104,6 +104,7 @@
             }
             printf(" | %3d ", $result);
             array_push($storageResults, $result);
+            $result = 0;
         }
         $totalSum = array_sum($storageResults);
         echo "<p>Сумма произвидений по столбцам: $totalSum</p>"

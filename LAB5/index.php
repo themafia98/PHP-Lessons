@@ -52,16 +52,18 @@
 
     /** Task 3 */
 
-    $vowels = ["a", "e", "i", "o", "u"];
+    $vowels = ["a", "e", "i", "o", "u", "о", "a", "y", "э", "ы", "я", "ё", "ю", "e", "и"];
     $counter = 0;
-    $string = strtolower((string)htmlspecialchars($_POST["string"]));
+    $param = htmlspecialchars($_POST["string"]);
+    
+    if ($param) $string = strtolower((string)$param);
     $list = array();
 
     if (!$string) $string = "hello world";
-
-    for ($i = 0; $i < strlen($string); $i++){
-        array_push($list, $string{$i});
-    }
+    $list = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
+    // for ($i = 0; $i < strlen($string); $i++){
+    //     array_push($list, $string{$i});
+    // }
 
     for ($i = 0; $i < count($list); $i++){
         $find = array_search($list[$i], $vowels);
@@ -73,7 +75,6 @@
             $counter += 1;
         }
     }
-
     $resultList = join("", $list);
 
 ?>

@@ -34,23 +34,23 @@
 
 	$s = null;
 	$_s = null;
-	$x2 = (int)htmlspecialchars($_POST["n"]);
+	$x2 = $_POST["n"] ? (int)htmlspecialchars($_POST["n"]) : null;
 	$isErrorTask2 = false;
 
 	if ($x2 && $x2 > 0){
 		echo "<p style = 'font-weight: bold;'>Task 2:</p>";
 		for ($n = 1; $n <= $x2; $n++){
+			if ($n > 1 && $_s === $s) break;
 			if ($s === null) $s = pow(-1, $n - 1) * 1 / pow($n,$n);
 			else $s += pow(-1, $n - 1) * 1 / pow($n,$n);
 			echo "<p>$n : $s</p>";
-			if ($n > 1 && $_s === $s) break;
 			$_s = $s;
 		} 
 	} elseif ($x2) $isErrorTask2 = true;
 
 	/** Two end */
 
-	$natural = (int)htmlspecialchars($_POST["natural"]);
+	$natural = $_POST["natural"] ? (int)htmlspecialchars($_POST["natural"]) : null;
 	$isError = false;
 	if ($natural && $natural > 0){
 	$res = array();

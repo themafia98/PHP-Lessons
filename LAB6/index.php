@@ -6,15 +6,46 @@ $searchItemLinear = $_POST['searchItemLinear'] ? htmlspecialchars($_POST['search
 
 
 function linearSearch($searchItemLinear, $arrayLinear){
-    $resultSearch = null;
+    $result = null;
     for ($i = 0; $i < count($arrayLinear); $i++){
         if ($arrayLinear[$i] == $searchItemLinear){
-            $resultSearch = $i;
+            $result = $i;
             break;
-        } else $resultSearch = -1;
+        } else $result = -1;
     }
-    return $resultSearch;
+    return $result;
 }
+
+function binarySearch($value, $arrayBinary){
+    $result = null;
+
+    $counter = count($arrayBinary);
+    $isFloat = $counter % 2 !== 0;
+    $pivot = ~~ ($counter / 2);
+    $pivotItem = $arrayBinary[$pivot];
+
+    $isLess = $value < $pivotItem;
+
+    $startArray =  $isLess ? 0 : $pivot;
+    $endArray = $isLess ? $pivot : count($arrayBinary);
+
+    $searchArray = array_splice($arrayBinary, $startArray, $endArray);
+
+    for ($i = 0; $i < count($searchArray); $i++){
+        if ($searchArray[$i] == $value){
+            if ($isLess){
+                $result = $i;
+                break;
+            }
+            $result = !$isFloat ? $i + ($counter - $pivot) : $i + ($counter - $pivot) - 1;
+            break;
+        } else $result = -1;
+    }
+
+    return $result;
+}
+
+print_r(binarySearch(9, [1,2,3,4,5,6,7,8,9]));
 
 ?>
 
@@ -30,7 +61,7 @@ function linearSearch($searchItemLinear, $arrayLinear){
 <body>
     <h3>Lab 6</h3>
     <p>Linear search:</p>
-    <?php if ($arrayLinear) print_r($arrayLinear) ?>
+    <?php if ($arrayLinear || $arrayLinear === 0) print_r($arrayLinear) ?>
     <form method = "POST" action = 'index.php'>
         <span>
             <p>Search item index: 

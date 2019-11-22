@@ -38,6 +38,20 @@ function binarySearch($value, $arrayBinary){
     return $result;
 }
 
+function directSearch($string, $searchString){
+    $result = null;
+
+    $list = preg_split("//u",$string, -1);
+    $counter = count($list);
+
+    for ($i = 0; $i < count($list); $i++){
+
+    }
+}
+
+directSearch("Привет мир!", "ивет");
+
+
 ?>
 
 

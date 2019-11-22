@@ -1,8 +1,8 @@
 <?php
 
 $arrayLinear = [5,7,8,"car", 43, 99, 'hi', '543', 221];
-
-$searchItemLinear = $_POST['searchItemLinear'] ? htmlspecialchars($_POST['searchItemLinear']) : null;
+$searchItemLinear = htmlspecialchars($_POST['searchItemLinear']);
+$searchItemBinary = htmlspecialchars($_POST['searchItemBinary']);
 
 
 function linearSearch($searchItemLinear, $arrayLinear){
@@ -20,7 +20,6 @@ function binarySearch($value, $arrayBinary){
     $result = null;
 
     $counter = count($arrayBinary);
-    $isFloat = $counter % 2 !== 0;
     $pivot = ~~ ($counter / 2);
     $pivotItem = $arrayBinary[$pivot];
 
@@ -29,23 +28,15 @@ function binarySearch($value, $arrayBinary){
     $startArray =  $isLess ? 0 : $pivot;
     $endArray = $isLess ? $pivot : count($arrayBinary);
 
-    $searchArray = array_splice($arrayBinary, $startArray, $endArray);
-
-    for ($i = 0; $i < count($searchArray); $i++){
-        if ($searchArray[$i] == $value){
-            if ($isLess){
+    for ($i = $startArray; $i < $endArray; $i++){
+        if ($arrayBinary[$i] == $value){
                 $result = $i;
                 break;
-            }
-            $result = !$isFloat ? $i + ($counter - $pivot) : $i + ($counter - $pivot) - 1;
-            break;
-        } else $result = -1;
-    }
+            } else $result = -1;
+        }
 
     return $result;
 }
-
-print_r(binarySearch(9, [1,2,3,4,5,6,7,8,9]));
 
 ?>
 
@@ -60,7 +51,7 @@ print_r(binarySearch(9, [1,2,3,4,5,6,7,8,9]));
 </head>
 <body>
     <h3>Lab 6</h3>
-    <p>Linear search:</p>
+    <p>1. Linear search:</p>
     <?php if ($arrayLinear || $arrayLinear === 0) print_r($arrayLinear) ?>
     <form method = "POST" action = 'index.php'>
         <span>
@@ -71,7 +62,23 @@ print_r(binarySearch(9, [1,2,3,4,5,6,7,8,9]));
             </p>
             <span>
             Search item:
-                <input name = "searchItemLinear" type = "text" />
+                <input name = "searchItemLinear" value = "0" type = "text" />
+            </span>
+        </span>
+        <input type = 'submit' value = 'search' />
+    </form>
+    <p>2. Binary search:</p>
+    <?php print_r([1,2,3,4,5,6,7,8,9]); ?>
+    <form method = "POST" action = 'index.php'>
+        <span>
+            <p>Search item index: 
+                <?php 
+                    if ($searchItemBinary) echo binarySearch($searchItemBinary, [1,2,3,4,5,6,7,8,9]);
+                ?>
+            </p>
+            <span>
+            Search item:
+                <input name = "searchItemBinary" value = "0" type = "text" />
             </span>
         </span>
         <input type = 'submit' value = 'search' />

@@ -33,7 +33,7 @@ function binarySearch($value, $arrayBinary){
                 $result = $i;
                 break;
             } else $result = -1;
-        }
+    }
 
     return $result;
 }

@@ -5,8 +5,8 @@ $searchItemLinear = isset($_POST['searchItemLinear']) ?
     htmlspecialchars($_POST['searchItemLinear']) : null;
 $searchItemBinary = isset($_POST['searchItemLinear']) ? 
     htmlspecialchars($_POST['searchItemLinear']) : null;
-$directSearchString = isset($_POST['directSitrng']) ? 
-    htmlspecialchars($_POST['directSitrng']) : "Привет мир, как дела?";
+$directSearchString = isset($_POST['directString']) ? 
+    htmlspecialchars($_POST['directString']) : "Привет мир, как дела?";
 $searchArticle = isset($_POST['searchDirectArticle']) ? 
     htmlspecialchars($_POST['searchDirectArticle']) : "мир";
 $searchStringKMP = isset($_POST['searchStringKMP']) ?
@@ -69,25 +69,33 @@ function directSearch($string, $searchString){
     return $isFind;
 }
 
-function searchKMP($searchString, $string){
-    $isFind = "false";
+function searchKMP($string, $searchString){
 
-    $stringList = preg_split("//u",$string, -1);
-    $searchList = preg_split("//u", $searchString, -1);
-    
-    for ($i = 0; $i < count($stringList); $i++){
-        for ($j = 0; $j < count($searchList); $j++){
-            if (!$searchList[$j]) {
-                return $i;
-            }
-            if ($stringList[$i + $j]  !== $stringList[$j]){
-                $isFind = "true";
-                break;
+    $prefix[0] = 0;
+    $counterString = mb_strlen($string);
+    $counterSearch = mb_strlen($searchString);
+
+    for ($i = 1, $j = 0; $i < $counterSearch; $i++){
+        while($j > 0 && $searchString[$j] != $searchString[$i]){
+            $j = $prefix[$j - 1];
+        }
+
+        $searchString[$j] == $searchString[$i] && $j++;
+        $prefix[$i] = $j;
+
+        if ($i + 1 < $counterSearch){
+            for($i = 0, $j = 0; $i < $counterString; $i++){
+
+                while($j > 0 && $searchString[$j] != $string[$i]){
+                    $j = $prefix[$j - 1];
+                }
+        
+                $searchString[$j] == $string[$i] && $j++;
+                if($j == $counterSearch) return "true";
             }
         }
-        
     }
-    return $isFind;
+    return "false";
 }
 
 
@@ -148,8 +156,8 @@ function searchKMP($searchString, $string){
             </p>
             <span>
             String for search:  
-                <input name = 'directSitrng' 
-                    placeholder="Привет мир, как дела?" 
+                <input name = 'directString' 
+                    value="Привет мир, как дела?" 
                     style = "margin-bottom: 4px;" 
                     type = 'text' 
                 />
@@ -168,7 +176,7 @@ function searchKMP($searchString, $string){
         <span>
             <p>Search result: 
                 <?php 
-                   echo searchKMP($searchStringKMP, $searchArticleKMP);
+                   echo searchKMP($searchStringKMP,$searchArticleKMP);
                 ?>
             </p>
             <span>

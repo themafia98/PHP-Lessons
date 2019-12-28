@@ -98,6 +98,12 @@ function searchKMP($string, $searchString){
     return "false";
 }
 
+function searchBM($source, $template){
+    $lengthSource = mb_strlen($source);
+    return $lengthSource;
+}
+
+
 
 ?>
 
@@ -111,6 +117,7 @@ function searchKMP($string, $searchString){
     <title>Algorithms php. Lab 6.</title>
 </head>
 <body>
+<?php searchBM("Hellaxc zxz o", null); ?>
     <h3>Lab 6</h3>
     <p>1. Linear search:</p>
     <?php if ($arrayLinear || $arrayLinear === 0) print_r($arrayLinear) ?>

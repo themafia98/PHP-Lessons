@@ -118,11 +118,7 @@
                 print_r("Search path: ");
             }
 
-            if (!is_object($tree) && !is_null($tree)){
-                return false;
-            }
-
-            if (is_null($tree)){
+            if (!is_object($tree) && !is_null($tree) || is_null($tree)){
                 return false;
             }
 

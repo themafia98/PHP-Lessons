@@ -65,6 +65,10 @@
                 $this -> startSearch = true;
         }
 
+        public function resetStatus(){
+            $this -> startSeach = false;
+        }
+
         public function getTree(){
             return $this -> tree;
         }
@@ -103,6 +107,7 @@
         public function build(array $dataArray){
 
             $this -> setTree(new BinaryTree);
+            $this -> resetStatus();
 
            foreach($dataArray as $key => $value){
                $this -> appendChild($this -> getTree(), $key, $value);

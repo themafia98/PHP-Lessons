@@ -50,6 +50,20 @@
 
     class BinaryTreeSearch {
         private $tree;
+        private $startSearch;
+
+        public function __construct(){
+            $this -> tree = null;
+            $this -> startSearch = false;
+        }
+
+        public function getStatus(){
+            return $this -> startSearch;
+        }
+
+        public function setStatus(){
+                $this -> startSearch = true;
+        }
 
         public function getTree(){
             return $this -> tree;
@@ -99,6 +113,11 @@
 
         public function findValue($key, $tree){
 
+            if (!$this -> getStatus()){
+                $this -> setStatus();
+                print_r("Search path: ");
+            }
+
             if (!is_object($tree) && !is_null($tree)){
                 return false;
             }
@@ -108,14 +127,17 @@
             }
 
             if ($tree -> getKey() === $key){
+                print_r("END");
                 return $tree -> getValue();
             }
 
             if ($tree -> getKey() > $key){
+                print_r("left => ");
                 return $this -> findValue($key, $tree -> getLeftNode());
             }
 
             if ($tree -> getKey() < $key){
+                print_r("right => ");
                 return $this -> findValue($key, $tree -> getRightNode());
             }
         }
@@ -124,12 +146,14 @@
     $testArray = array (8 => 1,
             3  => 2,
             5  => 3,
+            6 => 3,
+            1 => 3,
             9  => 4);
 
     $bTreeSearch = new BinaryTreeSearch();
     $tree = $bTreeSearch -> build($testArray);
 
-    $resultFind = $bTreeSearch -> findValue(1998, $tree);
+    $resultFind = $bTreeSearch -> findValue(6, $tree);
 
 
 ?>
@@ -143,13 +167,14 @@
     <title>Lab6.Tree</title>
 </head>
 <body>
-    <p>Search result:</p>
-    <p>
-        <?php
-        if ($resultFind){
-            echo $resultFind;
-        } else echo 'invalid find'; 
-        ?>
+    <p>Search result:
+        <span style = "font-weight: bold;">
+            <?php
+            if ($resultFind){
+                echo $resultFind;
+            } else echo 'invalid find'; 
+            ?>
+        </span>
     </p>
     <pre>
     <?php var_dump($bTreeSearch -> getTree()); ?>

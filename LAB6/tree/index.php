@@ -52,6 +52,8 @@
         private $tree;
         private $startSearch;
 
+        
+
         public function __construct(){
             $this -> tree = null;
             $this -> startSearch = false;
@@ -153,9 +155,11 @@
 
     $bTreeSearch = new BinaryTreeSearch();
     $tree = $bTreeSearch -> build($testArray);
+    $a = $bTreeSearch -> s || "";
+    
 
     $resultFind = $bTreeSearch -> findValue(6, $tree);
-
+    
 
 ?>
 

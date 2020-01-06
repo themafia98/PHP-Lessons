@@ -10,7 +10,7 @@ $directSearchString = isset($_POST['directString']) ?
 $searchArticle = isset($_POST['searchDirectArticle']) ? 
     htmlspecialchars($_POST['searchDirectArticle']) : "мир";
 $searchStringKMP = isset($_POST['searchStringKMP']) ?
-    htmlspecialchars($_POST['searchStringKMP']) : "Привет мир, как дела!!!";
+    htmlspecialchars($_POST['searchStringKMP']) : "Привет мир, как дела мир ?";
 $searchArticleKMP = isset($_POST['searchArticleKMP']) ?
     htmlspecialchars($_POST['searchArticleKMP']) : "дела";
 $searchTemplateBM = isset($_POST["searchTemplateBM"]) ?
@@ -73,11 +73,11 @@ function directSearch($string, $searchString){
     return $isFind;
 }
 
-function searchKMP(string $source, string $searchString){
+function searchKMP(string $searchString, string $source){
 
-    $matches = [];
-    $l_text = strlen($source);
-    $l_str = strlen($searchString);
+    $findArray = array();
+    $sourceLength = strlen($source);
+    $stringLength = strlen($searchString);
     $i = $j = 0;
 
     function getPrefix(string $data):array {
@@ -86,12 +86,12 @@ function searchKMP(string $source, string $searchString){
         $prefixLength = 0;
         $index = 1;
         $prefixArray = [];
-        array_push($prefixArray,0); // init
+        $prefixArray[0] = 0; // init
 
             while ($index < $dataLength) {
                 if ($data[$index] === $data[$prefixLength]) {
-                    $dataLength++;
-                    $prefixArray[$index] = $dataLength;
+                    $prefixLength++;
+                    $prefixArray[$index] = $prefixLength;
                     $index++;
                 } else {
                     if ($prefixLength !== 0) {
@@ -108,24 +108,26 @@ function searchKMP(string $source, string $searchString){
 
     $prefix = getPrefix($source);
 
-    var_dump($prefix);
-    while ($i < $l_str) {
-        if ($source[$j] === $searchString[$i]) {
+    while ($i < $stringLength) {
+        if ($source[$j] == $searchString[$i]) {
             $j++;
             $i++;
         }
 
-        if ($j == $l_text) {
-            array_push($matches, $i - $j);
+        if ($j == $sourceLength) {
+            array_push($findArray, $i - $j);
             $j = $prefix[$j - 1];
-        } else if ($i < $l_str && $source[$j] !== $searchString[$i]) {
-            if ($j !== 0)
+        } else if ($i < $stringLength && $source[$j] != $searchString[$i]) {
+            if ($j != 0)
                 $j = $prefix[$j - 1];
             else
                 $i = $i + 1;
         }
     }
-    return $matches;
+
+    if (array_count_values($findArray)){
+        return true;
+    } else return false;
 }
 
 function searchBM(string $template, string $source){
@@ -214,7 +216,7 @@ function searchBM(string $template, string $source){
             <span>
             String for search:  
                 <input name = 'directString' 
-                    value="Привет мир, как дела?" 
+                    value="Привет мир, как дела мир ?"
                     style = "margin-bottom: 4px;" 
                     type = 'text' 
                 />
@@ -232,9 +234,10 @@ function searchBM(string $template, string $source){
        <span>String for search: <?php print_r($searchArticleKMP) ?></span>
         <span>
             <p>Search result: 
-                <?php 
-                  // $result = searchKMP($searchStringKMP,$searchArticleKMP);
-                   //var_dump($result);
+                <?php
+                   if (searchKMP($searchStringKMP, $searchArticleKMP)) {
+                       echo "true";
+                   } else echo "false";
                 ?>
             </p>
             <span>

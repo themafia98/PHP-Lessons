@@ -105,8 +105,22 @@ print_r(shellSort([22,41,23,132,1112,334,78,23,23,929,32]));
 echo "<br/>";
 
 function qSort(array $arr){
+    $arrLeft = $arrRight = array();
 
+    if(count($arr) < 2) return $arr;
+
+    $pivot_key = key($arr);
+    $pivot = array_shift($arr);
+
+    foreach ($arr as $val){
+        if ($val <= $pivot) array_push($arrLeft, $val);
+        elseif ($val > $pivot)
+           array_push($arrRight, $val);
+    }
+
+    return array_merge(qSort($arrLeft), array($pivot_key => $pivot), qSort($arrRight));
 }
+
 
 print_r("qSort: ");
 print_r(qSort([42,1,32,0,112,34,28,13,28,329,22]));

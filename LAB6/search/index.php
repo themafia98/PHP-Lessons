@@ -171,6 +171,7 @@ function searchBM(string $template, string $source){
 </head>
 <body>
     <h3>Lab 6</h3>
+    <p style = 'font-weight: bold'>String algorithms</p>
     <p>1. Linear search:</p>
     <?php if ($arrayLinear || $arrayLinear === 0) print_r($arrayLinear) ?>
     <form method = "POST" action = 'index.php'>

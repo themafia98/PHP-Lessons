@@ -1,5 +1,7 @@
 <?php
 
+echo "<p style = 'font-weight: bold'>Tree algorithms</p>";
+
 class BinaryTree {
     private $rightNode;
     private $leftNode;
@@ -167,7 +169,7 @@ $resultFind = $bTreeSearch -> findValue(6, $tree);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Lab6.Tree</title>
 </head>
-<body>
+
 <p>Search result:
     <span style = "font-weight: bold;">
             <?php

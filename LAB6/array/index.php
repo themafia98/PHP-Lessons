@@ -165,13 +165,109 @@ function convertToFile(array  $arr, string $filename){
             }
         }
 
-        return "sort and convert done";
+        return "<br/><span>Sort and save file done. Result file content:</span>";
     } catch (Exception $err){
         echo $err -> getMessage(), "\n";
     }
 }
 
+echo "<br/>";
+echo "<span>File content:</span>";
+print_r(file_get_contents(FILE_SIMPLE));
 print_r(convertToFile(mergeSort(convertToArray(FILE_SIMPLE)), FILE_SIMPLE));
+print_r(file_get_contents(FILE_SIMPLE));
+echo "<br/>";
 
+function naturalMergeSort(string $filename){
+
+    $indexF1 = 1;
+    $indexF2 = 1;
+
+    while ($indexF1 > 0 && $indexF2 > 0){
+
+        /** initial props */
+        $sign = 0;
+        $indexF1 = 0;
+        $indexF2 = 0;
+        $file = fopen($filename, "r");
+        $chunkOne = fopen("chunk1.txt", "w");
+        $chunkTwo = fopen("chunk2.txt", "w");
+
+        /** start */
+        fgets($file);
+
+        $valChunkOne = 0;
+        $valChunkTwo = 0;
+
+        if (!feof($file)) fwrite($chunkOne, $file);
+        if (!feof($file)) fgets($file);
+
+        while (!feof($file)){
+
+            if ($valChunkTwo  < $valChunkOne){
+                switch ($sign){
+                    case 1: {
+                        fwirte($chunkOne," ");
+                        $sign = 2;
+                        $indexF1++;
+                        break;
+                    }
+
+                    case 2: {
+                        fwrite($chunkTwo, " ");
+                        $sign = 1;
+                        $indexF2++;
+                        break;
+                    }
+                }
+            }
+
+            if ($sign === 1) {
+                fwirte($chunkOne, $valChunkOne);
+                $indexF1++;
+            } else {
+                fwrite($file, $valChunkTwo);
+                $indexF2++;
+            }
+
+            $valChunkOne = $valChunkTwo;
+
+            fgets($file);
+        }
+
+        if ($indexF2 > 0 && $sign == 2){
+            fwrite($chunkTwo, "");
+        }
+
+        if ($indexF1 > 0 && $sign == 1){
+            fwrite($chunkOne, "");
+        }
+
+        fclose($chunkTwo);
+        fclose($chunkOne);
+        fclose($file);
+
+        if (!feof($chunkOne)) fgets($chunkOne);
+        if (!feof($chunkTwo)) fgets($chunkTwo);
+
+        while (!feof($chunkOne) && !feof($chunkTwo)){
+            $_fileOne = false;
+            $_fileTwo = false;
+
+            while (!$_fileOne && !$_fileTwo){
+
+                if ($valChunkOne <= $valChunkTwo){
+                    fwrite($file, $valChunkOne);
+                    $_fileOne = End_Range($chunkOne);
+                    fgets($chunkOne);
+                } else {
+                    fwrite($file, $valChunkTwo);
+                }
+            }
+        }
+    }
+}
+
+//naturalMergeSort("fileSimpleSort.txt");
 
 ?>

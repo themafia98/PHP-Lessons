@@ -1,4 +1,8 @@
 <?php
+
+define("FILE_SIMPLE", "fileSimpleSort.txt");
+
+
 function pyramidSort(array $array) {
     $init = (int)floor((count($array) - 1) / 2);
     for($i=$init; $i >= 0; $i--){
@@ -125,5 +129,49 @@ function qSort(array $arr){
 print_r("qSort: ");
 print_r(qSort([42,1,32,0,112,34,28,13,28,329,22]));
 echo "<br/>";
+
+/** externalSimpleMergeSort */
+function convertToArray(string $filename){
+    try {
+        $file = fopen($filename, "r") or exit(1);
+        $resultArr = Array();
+
+        while (($buff = fgets($file)) !== false){
+
+            $arrFile =  preg_split('//u',$buff,null,PREG_SPLIT_NO_EMPTY);
+
+            foreach($arrFile as $value){
+                if (!is_numeric($value)) continue;
+                array_push($resultArr, trim($value));
+            }
+        }
+
+        fclose($file);
+        return $resultArr;
+
+    } catch (Exception $err){
+        echo $err -> getMessage(), "\n";
+    }
+}
+
+function convertToFile(array  $arr, string $filename){
+    try {
+        $file = fopen($filename, "w") or exit(1);
+
+        foreach ($arr as $value) {
+            if ((fwrite($file, $value) === FALSE)){
+                throw new Error(("Bad file write"));
+                break;
+            }
+        }
+
+        return "sort and convert done";
+    } catch (Exception $err){
+        echo $err -> getMessage(), "\n";
+    }
+}
+
+print_r(convertToFile(mergeSort(convertToArray(FILE_SIMPLE)), FILE_SIMPLE));
+
 
 ?>

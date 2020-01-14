@@ -1,6 +1,9 @@
 <?php
 
 define("FILE_SIMPLE", "fileSimpleSort.txt");
+define("FILE_NATURAL", "fileNaturalMergeSort.txt");
+define("CHUNK_ONE", "chunk1.txt");
+define("CHUNK_TWO", "chunk2.txt");
 
 
 function pyramidSort(array $array) {
@@ -171,12 +174,22 @@ function convertToFile(array  $arr, string $filename){
     }
 }
 
-echo "<br/>";
+echo "<p>---External simple merge sort---</p>";
 echo "<span>File content:</span>";
 print_r(file_get_contents(FILE_SIMPLE));
 print_r(convertToFile(mergeSort(convertToArray(FILE_SIMPLE)), FILE_SIMPLE));
 print_r(file_get_contents(FILE_SIMPLE));
 echo "<br/>";
+
+function endStream($file){
+        $symbol = fgetc($file);
+
+        if ($symbol != "\n"){
+            fseek($file, -2, 1);
+        } else fseek($file, 1, 1);
+
+        return $symbol == "\n" ? true : false;
+}
 
 function naturalMergeSort(string $filename){
 
@@ -190,8 +203,8 @@ function naturalMergeSort(string $filename){
         $indexF1 = 0;
         $indexF2 = 0;
         $file = fopen($filename, "r");
-        $chunkOne = fopen("chunk1.txt", "w");
-        $chunkTwo = fopen("chunk2.txt", "w");
+        $chunkOne = fopen(CHUNK_ONE, "w");
+        $chunkTwo = fopen(CHUNK_TWO, "w");
 
         /** start */
         fgets($file);
@@ -258,7 +271,7 @@ function naturalMergeSort(string $filename){
 
                 if ($valChunkOne <= $valChunkTwo){
                     fwrite($file, $valChunkOne);
-                    $_fileOne = End_Range($chunkOne);
+                    $_fileOne = endStream($chunkOne);
                     fgets($chunkOne);
                 } else {
                     fwrite($file, $valChunkTwo);
@@ -266,8 +279,27 @@ function naturalMergeSort(string $filename){
             }
         }
     }
+
+    unlink(CHUNK_ONE);
+    unlink(CHUNK_TWO);
 }
 
-//naturalMergeSort("fileSimpleSort.txt");
+function insertNaturalFile(int $range){
+    $fileNatural = fopen(FILE_NATURAL, "w");
+    for ($i = $range; $i > 0; $i--) {
+        fwrite($fileNatural, $i);
+    }
+    fclose($fileNatural);
+}
+
+
+echo "<p>---External natural merge sort---</p>";
+insertNaturalFile(10);
+echo "<span>File content:</span>";
+print_r(file_get_contents(FILE_NATURAL));
+print_r(convertToFile(mergeSort(convertToArray(FILE_NATURAL)), FILE_NATURAL));
+print_r(file_get_contents(FILE_NATURAL));
+echo "<br/>";
+//naturalMergeSort(FILE_NATURAL);
 
 ?>
